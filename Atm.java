@@ -27,5 +27,14 @@ public class Atm{
             return accounts.get(userID);
         }
     }
+
+    public Double depositMoney(String userID, Double amount){
+        if (accounts.containsKey(userID)){
+            accounts.put(userID, accounts.get(userID) + amount);
+            return accounts.get(userID);
+        } else {
+            throw new IllegalArgumentException("You're broke AF");
+        }
+    }
 }
 
