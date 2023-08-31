@@ -11,5 +11,13 @@ public class Atm{
             throw new IllegalArgumentException("User already exists");
         }
     }
+    
+    public void closeAccount(String userID){
+        if (accounts.get(userID) != 0){
+            throw new IllegalArgumentException("User must withdraw: " + accounts.get(userID) + " before closing.");
+        } else {
+            accounts.remove(userID);
+        }
+    }
 }
 
