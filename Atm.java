@@ -1,5 +1,9 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Atm{
     Map<String, Double> accounts = new HashMap<>();
@@ -46,36 +50,32 @@ public class Atm{
         }
     }
 
-    public static void main(String[] args) {
-        Atm atm = new Atm();
-
+    public Boolean transferMoney(String fromAccount, String toAccount, Double amount){
         try {
-            atm.openAccount("user123", 100.0);
-            System.out.println("Account opened successfully.");
-        } catch (IllegalArgumentException e) {
-            System.out.println("Failed to open account: " + e.getMessage());
+            this.withdrawMoney(fromAccount, amount);
+            this.depositMoney(toAccount, amount);
+        } catch(IllegalArgumentException a) {
+            return false;
         }
+        return true;
+    }
 
+    public void audit() throws IOException{
         try {
-            atm.depositMoney("user123", 50.0);
-            System.out.println("Deposit successful. New balance: " + atm.checkBalance("user123"));
-        } catch (IllegalArgumentException e) {
-            System.out.println("Failed to deposit money: " + e.getMessage());
-        }
+            File audit = new File("AccountAudit.txt");
+            if (audit.exists()) {
+                audit.delete();
+            }
 
-        try {
-            double withdrawalAmount = 70.0;
-            atm.withdrawMoney("user123", withdrawalAmount);
-            System.out.println("Withdrawal of " + withdrawalAmount + " successful. New balance: " + atm.checkBalance("user123"));
-        } catch (IllegalArgumentException e) {
-            System.out.println("Failed to withdraw money: " + e.getMessage());
-        }
-
-        try {
-            atm.closeAccount("user123");
-            System.out.println("Account closed successfully.");
-        } catch (IllegalArgumentException e) {
-            System.out.println("Failed to close account: " + e.getMessage());
+            BufferedWriter writer = new BufferedWriter(new FileWriter("AccountAudit.txt"));
+            for (Map.Entry<String, Double> entry : accounts.entrySet()) {
+                String accountInfo = entry.getKey() + " : " + entry.getValue();
+                writer.write(accountInfo);
+                writer.newLine();
+            }
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Error occurred during audit: " + e.getMessage());
         }
     }
 }
