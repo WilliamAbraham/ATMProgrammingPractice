@@ -19,5 +19,13 @@ public class Atm{
             accounts.remove(userID);
         }
     }
+
+    public Double checkBalance(String userID){
+        if (!accounts.containsKey(userID)){
+            throw new IllegalArgumentException("No account found.");
+        } else {
+            return accounts.get(userID);
+        }
+    }
 }
 
