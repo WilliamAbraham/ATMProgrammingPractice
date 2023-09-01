@@ -78,5 +78,11 @@ public class Atm{
             System.out.println("Error occurred during audit: " + e.getMessage());
         }
     }
+
+    public static void main(String[] args){
+        Atm atm = new Atm();
+
+        
+    }
 }
 
