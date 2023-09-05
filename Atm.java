@@ -68,11 +68,12 @@ public class Atm{
             }
 
             BufferedWriter writer = new BufferedWriter(new FileWriter("AccountAudit.txt"));
-            for (Map.Entry<String, Double> entry : accounts.entrySet()) {
-                String accountInfo = entry.getKey() + " : " + entry.getValue();
+            for (String key : accounts.keySet()) {
+                String accountInfo = key + ": " + accounts.get(key);
                 writer.write(accountInfo);
                 writer.newLine();
             }
+            
             writer.close();
         } catch (IOException e) {
             System.out.println("Error occurred during audit: " + e.getMessage());
